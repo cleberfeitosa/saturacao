@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoloFértil | Guia de Correção</title>
+    
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-flex">
+            <a href="index.html" class="logo"><i class="fas fa-leaf"></i> Solo<span>Fértil</span></a>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-btn active">Fundamentos</a>
+                <a href="calculadora.html" class="nav-btn cta">Calculadora</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>O Diagnóstico da Terra</h1>
+            <p>Entenda a linguagem do seu solo antes de aplicar qualquer produto. O guia didático para alta produtividade.</p>
+        </div>
+    </section>
+
+    <section class="section-padding bg-white">
+        <div class="container concept-grid">
+            <div class="concept-text">
+                <h2>O Solo é um Organismo Vivo</h2>
+                <p>Imagine que o solo é o sistema digestivo da planta. Em regiões tropicais, esse sistema nasce naturalmente "bloqueado": Ácido e com Alumínio tóxico.</p>
+                <br>
+                <p>A correção é o tratamento médico para que a planta consiga "comer". A análise de solo é o exame de sangue obrigatório.</p>
+            </div>
+            <div class="concept-card">
+                <h3><i class="fas fa-info-circle"></i> A Regra de Ouro</h3>
+                <p style="margin-top: 10px;">Sem análise de solo, você está dando remédio no escuro. Pode ser pouco (não resolve) ou muito (intoxica).</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding bg-green">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2>Passo 1: A Coleta</h2>
+                <p>Onde as raízes estão e onde o perigo se esconde.</p>
+            </div>
+            <div class="depth-cards">
+                <div class="depth-card">
+                    <div class="depth-icon"><i class="fas fa-seedling"></i></div>
+                    <h4>0 - 20 cm</h4>
+                    <p>Camada da vida. Onde ficam as raízes e nutrientes. Foco da <strong>Calagem</strong>.</p>
+                </div>
+                <div class="depth-card">
+                    <div class="depth-icon"><i class="fas fa-layer-group"></i></div>
+                    <h4>20 - 40 cm</h4>
+                    <p>Camada do perigo. Onde o Alumínio se esconde. Foco da <strong>Gessagem</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding container">
+        <h2 style="text-align: center; margin-bottom: 40px;">Passo 2:Decifrando o Laudo</h2>
+        
+        <div style="margin-bottom: 40px;">
+            <h3 style="color: var(--secondary); margin-bottom: 15px;"><i class="fas fa-cube"></i> Variáveis Físicas (O Esqueleto)</h3>
+            <div class="cards-grid">
+                <div class="info-card fixed">
+                    <h4>Argila (Pesado)</h4>
+                    <p>Segura nutrientes, mas exige doses altas de calcário.</p>
+                    <span class="meta-tag neutral">Tampão Alto</span>
+                </div>
+                <div class="info-card fixed">
+                    <h4>Areia (Leve)</h4>
+                    <p>Reage rápido, mas perde nutrientes com a chuva.</p>
+                    <span class="meta-tag neutral">Lixiviação Alta</span>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h3 style="color: var(--primary); margin-bottom: 15px;"><i class="fas fa-flask"></i> Variáveis Químicas (O Sangue)</h3>
+            <div class="cards-grid">
+                <div class="info-card chem">
+                    <h4>pH (Acidez)</h4>
+                    <p>Se < 5.5, trava nutrientes.</p>
+                    <span class="meta-tag good">Meta: 6.0 - 6.5</span>
+                </div>
+                <div class="info-card alert">
+                    <h4>Alumínio ($Al^{3+}$)</h4>
+                    <p>Tóxico para raízes.</p>
+                    <span class="meta-tag bad">Meta: 0.0</span>
+                </div>
+                <div class="info-card gold">
+                    <h4>V% (Saturação)</h4>
+                    <p>Quanto da "geladeira" tem comida boa?</p>
+                    <span class="meta-tag good">Meta: 60% - 80%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding bg-white">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 40px;">A Ordem dos Fatores</h2>
+            <div class="step-container">
+                <div class="step-row">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Calagem</h3>
+                        <p>A base. Sobe o pH e anula o Alumínio superficial. <strong>Precisa incorporar.</strong></p>
+                    </div>
+                </div>
+                <div class="step-row">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Gessagem</h3>
+                        <p>O condicionador. Desce para combater Alumínio em profundidade. Não muda pH.</p>
+                    </div>
+                </div>
+                <div class="step-row">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Adubação (P e K)</h3>
+                        <p>O estoque. Só entra DEPOIS de corrigir. Se aplicar Fósforo em solo ácido, ele trava.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Pronto para a prática?</h2>
+            <p style="margin-top: 10px;">Vamos usar os números do seu laudo.</p>
+            <a href="calculadora.html" class="big-btn">ACESSAR CALCULADORA <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+</body>
+</html>

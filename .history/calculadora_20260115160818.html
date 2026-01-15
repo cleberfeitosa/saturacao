@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoloFértil | Calculadora de Calagem</title>
+    
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-flex">
+            <a href="index.html" class="logo"><i class="fas fa-leaf"></i> Solo<span>Fértil</span></a>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-btn">Guia Técnico</a>
+                <a href="calculadora.html" class="nav-btn active cta">Calculadora</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" style="padding: 60px 0;">
+        <div class="container">
+            <h1>Calculadora de Calagem</h1>
+            <p>Método de Saturação por Bases ($NC$)</p>
+        </div>
+    </section>
+
+    <section class="section-padding bg-green">
+        <div class="container">
+            
+            <div class="calc-wrapper">
+                <h3 style="margin-bottom: 25px; color: var(--primary);">Insira os dados da Análise:</h3>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="v1">Saturação Atual ($V_1\%$)</label>
+                        <input type="number" id="v1" placeholder="Ex: 40" step="0.1">
+                        <small style="color: #888;">Encontrado no laudo do solo.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="v2">Meta de Saturação ($V_2\%$)</label>
+                        <input type="number" id="v2" placeholder="Ex: 70" step="0.1">
+                        <small style="color: #888;">Geralmente entre 60% e 80%.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ctc">CTC do Solo ($cmol_c/dm^3$)</label>
+                        <input type="number" id="ctc" placeholder="Ex: 12.5" step="0.1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prnt">PRNT do Calcário (%)</label>
+                        <input type="number" id="prnt" placeholder="Ex: 85" step="0.1">
+                        <small style="color: #888;">Vem escrito no saco do calcário.</small>
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <button type="button" class="big-btn" onclick="calcularCalagem()">
+                        <i class="fas fa-calculator"></i> CALCULAR
+                    </button>
+                </div>
+
+                <div id="resultadoArea" class="result-box" style="display: none;">
+                    <h3><i class="fas fa-check-circle"></i> Resultado:</h3>
+                    <p>Você precisa aplicar:</p>
+                    <div style="margin-top: 10px;">
+                        <span id="valorFinal" class="result-value">0.00</span>
+                        <span class="result-unit">Toneladas por Hectare</span>
+                    </div>
+                    <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">
+                        *Lembre-se de incorporar o calcário ao solo se possível.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Desenvolvimento por Cleber Feitosa</p>
+        </div>
+    </footer>
+
+    <script>
+        function calcularCalagem() {
+            // 1. Pegar os valores dos inputs
+            // parseFloat converte texto para número decimal
+            let v1 = parseFloat(document.getElementById('v1').value);
+            let v2 = parseFloat(document.getElementById('v2').value);
+            let ctc = parseFloat(document.getElementById('ctc').value);
+            let prnt = parseFloat(document.getElementById('prnt').value);
+
+            // 2. Validação simples (se algum campo estiver vazio)
+            if (isNaN(v1) || isNaN(v2) || isNaN(ctc) || isNaN(prnt)) {
+                alert("Por favor, preencha todos os campos corretamente.");
+                return;
+            }
+
+            // 3. A Fórmula: NC = [(V2 - V1) * CTC] / PRNT
+            let necessidade = ((v2 - v1) * ctc) / prnt;
+
+            // 4. Tratamento lógico (não existe adubação negativa)
+            if (necessidade < 0) {
+                necessidade = 0;
+            }
+
+            // 5. Exibir o resultado
+            let displayArea = document.getElementById('resultadoArea');
+            let valorTexto = document.getElementById('valorFinal');
+
+            // .toFixed(2) deixa com 2 casas decimais (Ex: 2.45)
+            valorTexto.innerText = necessidade.toFixed(2);
+            
+            // Mostra a caixa de resultado
+            displayArea.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>

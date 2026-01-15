@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoloFértil | Calculadora de Calagem</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        /* --- ESTILOS COMPARTILHADOS --- */
+        :root {
+            --primary: #4A7C59;
+            --primary-dark: #3a6346;
+            --secondary: #8C6239;
+            --accent: #F4D35E;
+            --alert: #D9534F;
+            --bg-light: #F9F9F9;
+            --white: #FFFFFF;
+            --text-dark: #2C3E50;
+            --text-light: #555;
+            --shadow: 0 4px 6px rgba(0,0,0,0.05);
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Open Sans', sans-serif; background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        a { text-decoration: none; }
+
+        /* Header */
+        header { background: var(--white); padding: 15px 0; box-shadow: var(--shadow); position: sticky; top: 0; z-index: 100; }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .logo span { color: var(--secondary); }
+        .nav-btn { color: var(--text-light); padding: 8px 16px; border-radius: 50px; font-weight: 600; transition: 0.3s; font-size: 0.9rem; margin-left: 10px; }
+        .nav-btn:hover { color: var(--primary); background: #f0f7f4; }
+        .nav-btn.active { background-color: var(--primary); color: var(--white); }
+
+        /* Estilos Calculadora */
+        .calc-hero { text-align: center; padding: 40px 0; }
+        .calc-wrapper { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-bottom: 50px; }
+        
+        .input-group { margin-bottom: 25px; }
+        .input-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.95rem; }
+        .input-group small { display: block; font-size: 0.8rem; color: #888; margin-top: 4px; }
+        
+        .form-control { width: 100%; padding: 12px 15px; border: 2px solid #E0E0E0; border-radius: 8px; font-size: 1rem; transition: 0.3s; font-family: 'Open Sans', sans-serif; }
+        .form-control:focus { outline: none; border-color: var(--primary); background-color: #F7FAF8; }
+        .select-helper { background-color: #f0f7f4; border: 1px dashed var(--primary); color: var(--primary-dark); cursor: pointer; }
+
+        .btn-calc { width: 100%; background: var(--primary); color: var(--white); border: none; padding: 15px; font-size: 1.1rem; font-weight: 700; border-radius: 50px; cursor: pointer; transition: 0.3s; margin-top: 10px; box-shadow: 0 4px 10px rgba(74, 124, 89, 0.3); }
+        .btn-calc:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+        /* Área de Resultado */
+        .result-section { background: #F4F8F5; border-radius: var(--radius); padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 1px solid #E0E0E0; position: relative; }
+        
+        .empty-state { opacity: 0.5; }
+        .empty-state i { font-size: 3rem; margin-bottom: 15px; }
+        
+        .calc-output { display: none; width: 100%; }
+        .result-value { font-size: 3.5rem; font-weight: 700; color: var(--primary); font-family: 'Montserrat', sans-serif; margin: 10px 0; line-height: 1; }
+        .result-unit { font-size: 1.2rem; color: var(--text-light); font-weight: 600; }
+        
+        .result-card { background: var(--white); padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-top: 20px; width: 100%; text-align: left; border-left: 5px solid var(--accent); }
+        
+        .error-msg { color: var(--alert); font-size: 0.9rem; margin-top: 5px; display: none; font-weight: 600; }
+
+        @media (max-width: 768px) {
+            .calc-wrapper { grid-template-columns: 1fr; padding: 25px; gap: 30px; }
+            .result-section { min-height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-flex">
+            <a href="index.html" class="logo"><i class="fas fa-calculator"></i> Calculadora</a>
+            <nav>
+                <a href="index.html" class="nav-btn">Guia Técnico<</a>
+                <a href="calculadora.html" class="nav-btn active">Calculadora</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="calc-hero">
+            <h1>Cálculo de Necessidade de Calagem</h1>
+            <p>Método da Saturação por Bases. Preencha com os dados da sua análise de solo.</p>
+        </div>
+
+        <div class="calc-wrapper">
+            
+            <div class="calc-form">
+                
+                <div class="input-group">
+                    <label><i class="fas fa-seedling"></i> O que você vai plantar?</label>
+                    <select id="cropSelect" class="form-control select-helper" onchange="autoFillV2()">
+                        <option value="" disabled selected>Selecione para preencher a Meta (V2)...</option>
+                        <option value="80">Leguminosas nobres (Soja, Feijão) - V2: 80%</option>
+                        <option value="70">Cereais (Milho, Trigo) - V2: 70%</option>
+                        <option value="60">Pastagens / Gramíneas - V2: 60%</option>
+                        <option value="50">Culturas rústicas (Mandioca) - V2: 50%</option>
+                        <option value="custom">Outro (Manual)</option>
+                    </select>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+                <div class="input-group">
+                    <label for="v2">Meta de Saturação (V2 %)</label>
+                    <input type="number" id="v2" class="form-control" placeholder="Ex: 70" min="0" max="100">
+                </div>
+
+                <div class="input-group">
+                    <label for="v1">Saturação Atual (V1 %)</label>
+                    <input type="number" id="v1" class="form-control" placeholder="Veja no laudo (V%)" min="0" max="100">
+                    <div id="v1-error" class="error-msg">A saturação atual não pode ser maior que a meta!</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="ctc">CTC ($cm_c/dm^3$ ou $mmol_c \div 10$)</label>
+                    <input type="number" id="ctc" class="form-control" placeholder="Ex: 12.5" step="0.1">
+                </div>
+
+                <div class="input-group">
+                    <label for="prnt">PRNT do Calcário (%)</label>
+                    <input type="number" id="prnt" class="form-control" placeholder="Ex: 80" value="80">
+                </div>
+
+                <button class="btn-calc" onclick="calculateLime()">CALCULAR <i class="fas fa-check"></i></button>
+
+            </div>
+
+            <div class="result-section" id="resultBox">
+                
+                <div id="emptyState" class="empty-state">
+                    <i class="fas fa-weight-hanging"></i>
+                    <h3>Aguardando dados...</h3>
+                    <p>Preencha o formulário para gerar a prescrição.</p>
+                </div>
+
+                <div id="calcOutput" class="calc-output">
+                    <h4>Você precisa aplicar:</h4>
+                    <div class="result-value" id="finalResult">0.0</div>
+                    <div class="result-unit">Toneladas por Hectare</div>
+                    
+                    <div class="result-card">
+                        <h5><i class="fas fa-clipboard-list"></i> Detalhes:</h5>
+                        <ul style="list-style: none; margin-top: 10px; font-size: 0.9rem; color: #555;">
+                            <li>Déficit de Saturação: <span id="deficitVal">0</span>%</li>
+                            <li>Calcário com PRNT: <span id="prntVal">0</span>%</li>
+                        </ul>
+                        <div style="margin-top: 15px; padding-top:10px; border-top:1px dashed #ddd; font-size: 0.85rem; color: var(--primary);">
+                            <i class="fas fa-lightbulb"></i> <strong>Dica:</strong> Se for maior que 4 ton/ha, divida em duas aplicações.
+                        </div>
+                    </div>
+                </div>
+
+                <div id="noNeedState" class="calc-output" style="color: var(--primary);">
+                    <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3>Solo Equilibrado!</h3>
+                    <p>Sua saturação atual (V1) já é suficiente.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Preenchimento Automático
+        function autoFillV2() {
+            const select = document.getElementById('cropSelect');
+            const v2Input = document.getElementById('v2');
+            
+            if (select.value !== 'custom') {
+                v2Input.value = select.value;
+                v2Input.style.backgroundColor = "#e8f5e9";
+                setTimeout(() => { v2Input.style.backgroundColor = "#fff"; }, 500);
+            } else {
+                v2Input.value = '';
+                v2Input.focus();
+            }
+        }
+
+        // Lógica de Cálculo
+        function calculateLime() {
+            const v1 = parseFloat(document.getElementById('v1').value);
+            const v2 = parseFloat(document.getElementById('v2').value);
+            const ctc = parseFloat(document.getElementById('ctc').value);
+            const prnt = parseFloat(document.getElementById('prnt').value);
+
+            const emptyState = document.getElementById('emptyState');
+            const calcOutput = document.getElementById('calcOutput');
+            const noNeedState = document.getElementById('noNeedState');
+            const v1Error = document.getElementById('v1-error');
+            const resultBox = document.getElementById('resultBox');
+
+            if (isNaN(v1) || isNaN(v2) || isNaN(ctc) || isNaN(prnt)) {
+                alert("Por favor, preencha todos os campos numéricos.");
+                return;
+            }
+
+            // Se o solo já está bom
+            if (v1 >= v2) {
+                emptyState.style.display = 'none';
+                calcOutput.style.display = 'none';
+                noNeedState.style.display = 'block';
+                v1Error.style.display = 'none';
+                return;
+            }
+
+            v1Error.style.display = 'none';
+
+            // Fórmula NC = (V2 - V1) x CTC / PRNT
+            let nc = ((v2 - v1) * ctc) / prnt;
+            nc = Math.round(nc * 100) / 100;
+
+            emptyState.style.display = 'none';
+            noNeedState.style.display = 'none';
+            calcOutput.style.display = 'block';
+
+            document.getElementById('finalResult').innerText = nc.toFixed(2);
+            document.getElementById('deficitVal').innerText = (v2 - v1);
+            document.getElementById('prntVal').innerText = prnt;
+            resultBox.style.borderColor = "var(--primary)";
+            resultBox.style.backgroundColor = "#fff";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoloFértil | Calculadora de Calagem</title>
+    
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-flex">
+            <a href="index.html" class="logo"><i class="fas fa-leaf"></i> Solo<span>Fértil</span></a>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-btn">Guia Técnico</a>
+                <a href="calculadora.html" class="nav-btn active cta">Calculadora</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" style="padding: 60px 0;">
+        <div class="container">
+            <h1>Calculadora de Calagem</h1>
+            <p>Método de Saturação por Bases: $$NC = \frac{(V_2 - V_1) \times CTC}{PRNT}$$</p>
+        </div>
+    </section>
+
+    <section class="section-padding bg-green">
+        <div class="container">
+            
+            <div class="calc-wrapper">
+                <h3 style="margin-bottom: 25px; color: var(--primary);"><i class="fas fa-flask"></i> Insira os dados da Análise</h3>
+                
+                <form id="calcForm">
+                    <div class="form-grid">
+                        
+                        <div class="form-group">
+                            <label for="v1">Saturação Atual ($V_1\%$)</label>
+                            <input type="number" id="v1" placeholder="Ex: 42.5" step="0.1" required>
+                            <small style="color: #666; font-size: 0.8rem;">Está no laudo como V%.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="v2">Meta de Saturação ($V_2\%$)</label>
+                            <input type="number" id="v2" placeholder="Ex: 70" step="0.1" required>
+                            <small style="color: #666; font-size: 0.8rem;">Geralmente 60%, 70% ou 80%.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ctc">CTC ($cmol_c/dm^3$)</label>
+                            <input type="number" id="ctc" placeholder="Ex: 12.3" step="0.1" required>
+                            <small style="color: #666; font-size: 0.8rem;">Capacidade de Troca Catiônica.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prnt">PRNT do Calcário (%)</label>
+                            <input type="number" id="prnt" placeholder="Ex: 85" step="0.1" required>
+                            <small style="color: #666; font-size: 0.8rem;">Qualidade do produto comprado.</small>
+                        </div>
+
+                    </div>
+
+                    <div style="text-align: center; margin-top: 10px;">
+                        <button type="button" class="big-btn" onclick="calcular()">
+                            <i class="fas fa-calculator"></i> CALCULAR AGORA
+                        </button>
+                    </div>
+                </form>
+
+                <div id="resultadoBox" class="result-box" style="display: none;">
+                    <h3><i class="fas fa-check-circle"></i> Resultado da Análise</h3>
+                    <p>Para atingir a saturação desejada, aplique:</p>
+                    
+                    <div style="margin: 20px 0;">
+                        <span id="valorResultado" class="result-value">0.00</span>
+                        <span class="result-unit">Toneladas / ha</span>
+                    </div>
+
+                    <p style="font-size: 0.9rem; color: #555;">
+                        <strong>Nota Técnica:</strong> Se o valor for muito alto (acima de 3 ton/ha), recomenda-se dividir a aplicação em duas vezes (metade antes da aração, metade antes da gradagem).
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Desenvolvimento por Cleber Feitosa</p>
+        </div>
+    </footer>
+
+    <script>
+        function calcular() {
+            // 1. Obter valores
+            var v1 = parseFloat(document.getElementById('v1').value);
+            var v2 = parseFloat(document.getElementById('v2').value);
+            var ctc = parseFloat(document.getElementById('ctc').value);
+            var prnt = parseFloat(document.getElementById('prnt').value);
+
+            // 2. Validação simples
+            if (isNaN(v1) || isNaN(v2) || isNaN(ctc) || isNaN(prnt)) {
+                alert("Por favor, preencha todos os campos com números válidos.");
+                return;
+            }
+
+            if (prnt === 0) {
+                alert("O PRNT não pode ser zero.");
+                return;
+            }
+
+            // 3. Fórmula NC = (V2 - V1) * CTC / PRNT
+            var resultado = ((v2 - v1) * ctc) / prnt;
+
+            // 4. Lógica de segurança (não existe adubação negativa)
+            if (resultado < 0) {
+                resultado = 0;
+            }
+
+            // 5. Exibir resultado
+            var box = document.getElementById('resultadoBox');
+            var valorTxt = document.getElementById('valorResultado');
+
+            valorTxt.innerText = resultado.toFixed(2); // Duas casas decimais
+            box.style.display = 'block'; // Mostra a caixa
+            
+            // Scroll suave até o resultado
+            box.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
